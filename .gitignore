@@ -2,3 +2,4 @@
 *.mkv
 *.mov
 /downloads/
+/target/
