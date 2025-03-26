@@ -1,1 +1,0 @@
-cargo:rustc-env=MIME_TYPES_GENERATED_PATH=/mnt/bufalo/dev/tubedrop/target/x86_64-unknown-linux-musl/release/build/mime_guess-218fadb1d948fcae/out/mime_types_generated.rs
