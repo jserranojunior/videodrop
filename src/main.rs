@@ -1,7 +1,8 @@
 use axum::{Json, Router, routing::post};
+use chrono::Utc;
 use serde::{Deserialize, Serialize};
+use std::path::Path;
 use std::process::Command;
-use std::string::String;
 use tokio::task;
 use tower_http::services::ServeDir;
 
@@ -10,56 +11,89 @@ struct DataVideo {
     video: String,
     tipo: String,
     formato: String,
+    folder: String,
 }
 
 #[derive(Serialize)]
 struct Response {
-    data: bool,
+    success: bool,
+    message: Option<String>,
 }
 
 async fn download_youtube(data: DataVideo) -> Response {
-    let video = data.video.clone();
-    let tipo = data.tipo.clone();
-    let formato = data.formato.clone();
+    let downloads_dir = Path::new("./downloads");
+
+    let folder_name = if !data.folder.is_empty() {
+        data.folder
+    } else {
+        Utc::now().format("pasta_%Y-%m-%d_%H-%M-%S").to_string()
+    };
+
+    let folder_path = downloads_dir.join(&folder_name);
+
+    if let Err(e) = tokio::fs::create_dir_all(&folder_path).await {
+        return Response {
+            success: false,
+            message: Some(format!("Falha ao criar diretório: {}", e)),
+        };
+    }
 
     let result = task::spawn_blocking(move || {
         let mut cmd = Command::new("yt-dlp");
 
-        if tipo == "playlist" {
-            if formato == "mp3" {
-                cmd.args(&["-x", "--audio-format", "mp3", "--yes-playlist"]);
+        cmd.current_dir(&folder_path);
+
+        if data.tipo == "playlist" {
+            if data.formato == "mp3" {
+                cmd.args(["-x", "--audio-format", "mp3", "--yes-playlist"]);
             } else {
-                cmd.args(&["-f", "bv*+ba/b", "--yes-playlist"]);
+                cmd.args(["-f", "bv*+ba/b", "--yes-playlist"]);
             }
-        } else if formato == "mp3" {
-            cmd.args(&["-x", "--audio-format", "mp3"]);
+        } else if data.formato == "mp3" {
+            cmd.args(["-x", "--audio-format", "mp3", "--no-playlist"]);
         } else {
-            cmd.args(&["-f", "bv*+ba/b"]);
+            cmd.args(["-f", "bv*+ba/b", "--no-playlist"]);
         }
 
-        cmd.arg(video);
-        let output = cmd.output().expect("Falha ao executar o yt-dlp");
+        cmd.arg(&data.video);
 
-        output.status.success()
+        match cmd.output() {
+            Ok(output) if output.status.success() => Response {
+                success: true,
+                message: None,
+            },
+            Ok(output) => Response {
+                success: false,
+                message: Some(String::from_utf8_lossy(&output.stderr).into_owned()),
+            },
+            Err(e) => Response {
+                success: false,
+                message: Some(format!("Falha ao executar comando: {}", e)),
+            },
+        }
     })
     .await
-    .unwrap_or(false);
+    .unwrap_or_else(|_| Response {
+        success: false,
+        message: Some("Erro na execução da tarefa".to_string()),
+    });
 
-    Response { data: result }
+    result
 }
 
 async fn handle_data(Json(data): Json<DataVideo>) -> Json<Response> {
-    let result = download_youtube(data).await;
-
-    // Return the result wrapped in Json
-    Json(result)
+    Json(download_youtube(data).await)
 }
 
 #[tokio::main]
 async fn main() {
     let app = Router::new()
         .route("/submit", post(handle_data))
-        .fallback_service(ServeDir::new("src"));
+        .fallback_service(
+            ServeDir::new("src")
+                .append_index_html_on_directories(true)
+                .precompressed_gzip(),
+        );
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
         .await

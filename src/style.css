@@ -106,3 +106,21 @@ button:hover {
   background-color: #d9edf7;
   color: #31708f;
 }
+.site-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.site-logos img {
+  width: 50px; /* Ajuste conforme necessário */
+  height: 50px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+  padding: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
