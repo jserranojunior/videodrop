@@ -35,23 +35,11 @@
         <button type="submit">Baixar</button>
       </form>
 
-      <div
-        class="progress-container"
-        id="progressContainer"
-        style="display: none"
-      >
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-
-      <div
-        id="progressMessage"
-        class="response-message info"
-        style="display: none"
-      ></div>
       <div id="responseMessage" class="response-message"></div>
     </div>
 
     <script>
+      // Função para enviar os dados do formulário para o servidor
       document
         .getElementById("downloadForm")
         .addEventListener("submit", async function (e) {
@@ -62,18 +50,10 @@
           const formato = document.getElementById("formato").value;
 
           const responseMessage = document.getElementById("responseMessage");
-          const progressContainer =
-            document.getElementById("progressContainer");
-          const progressBar = document.getElementById("progressBar");
-          const progressMessage = document.getElementById("progressMessage");
-
-          responseMessage.textContent = "";
-          responseMessage.className = "response-message";
-          progressContainer.style.display = "none";
-          progressMessage.style.display = "none";
+          responseMessage.textContent = "Processando...";
+          responseMessage.classList.remove("success", "error");
 
           try {
-            // Envia a requisição para iniciar o download
             const response = await fetch("http://localhost:3000/submit", {
               method: "POST",
               headers: {
@@ -83,52 +63,17 @@
             });
 
             const data = await response.json();
-            const downloadId = data.download_id;
 
-            // Mostra a barra de progresso
-            progressContainer.style.display = "block";
-            progressMessage.style.display = "block";
-            progressMessage.textContent = "Preparando download...";
-
-            // Verifica o progresso periodicamente
-            const checkInterval = setInterval(async () => {
-              try {
-                const progressResponse = await fetch(
-                  `http://localhost:3000/progress/${downloadId}`
-                );
-                const progress = await progressResponse.json();
-
-                progressMessage.textContent = progress.message;
-
-                if (progress.status === "downloading") {
-                  progressBar.style.width = `${progress.progress * 100}%`;
-                } else if (progress.status === "completed") {
-                  progressBar.style.width = "100%";
-                  progressMessage.textContent =
-                    "Download concluído com sucesso!";
-                  responseMessage.textContent = "Download bem-sucedido!";
-                  responseMessage.className = "response-message success";
-                  clearInterval(checkInterval);
-                } else if (progress.status === "failed") {
-                  progressBar.style.backgroundColor = "#f44336";
-                  progressMessage.textContent = "Falha no download";
-                  responseMessage.textContent = "Erro ao baixar o vídeo.";
-                  responseMessage.className = "response-message error";
-                  clearInterval(checkInterval);
-                } else if (progress.status === "not_found") {
-                  progressMessage.textContent = "Download não encontrado";
-                  clearInterval(checkInterval);
-                }
-              } catch (error) {
-                console.error("Erro ao verificar progresso:", error);
-                progressMessage.textContent = "Erro ao verificar progresso";
-                clearInterval(checkInterval);
-              }
-            }, 1000); // Verifica a cada segundo
+            if (data.data) {
+              responseMessage.textContent = "Download bem-sucedido!";
+              responseMessage.classList.add("success");
+            } else {
+              responseMessage.textContent = "Erro ao baixar o vídeo.";
+              responseMessage.classList.add("error");
+            }
           } catch (error) {
-            console.error("Erro:", error);
             responseMessage.textContent = "Erro ao conectar ao servidor.";
-            responseMessage.className = "response-message error";
+            responseMessage.classList.add("error");
           }
         });
     </script>
