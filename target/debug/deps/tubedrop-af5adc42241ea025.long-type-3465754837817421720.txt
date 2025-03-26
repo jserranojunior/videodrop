@@ -1,0 +1,1 @@
+fn(Json<DataVideo>, State<Arc<std::sync::Mutex<HashMap<std::string::String, DownloadProgress>>>>) -> impl Future<Output = Json<Response>> {handle_data}
