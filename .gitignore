@@ -1,2 +1,4 @@
-/target
-/downloads
+*.mp4
+*.mkv
+*.mov
+/downloads/
