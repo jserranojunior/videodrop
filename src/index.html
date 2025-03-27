@@ -75,6 +75,8 @@
           responseMessage.textContent = "Processando...";
           responseMessage.classList.remove("success", "error");
 
+          console.log("v1.1");
+
           try {
             const response = await fetch("http://localhost:3000/submit", {
               method: "POST",
