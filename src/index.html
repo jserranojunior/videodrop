@@ -76,11 +76,16 @@
           responseMessage.classList.remove("success", "error");
 
           try {
-            const response = await fetch("http://0.0.0.0:3000/submit", {
+            const response = await fetch("http://localhost:3000/submit", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ video, tipo, formato, folder }),
             });
+
+            if (!response.ok) {
+              // Se o servidor retornar um erro (não for 2xx)
+              throw new Error("Erro ao acessar o servidor.");
+            }
 
             const data = await response.json();
 
@@ -94,6 +99,7 @@
           } catch (error) {
             responseMessage.textContent = "Erro ao conectar ao servidor.";
             responseMessage.classList.add("error");
+            console.error("Erro ao fazer a requisição:", error); // Exibe o erro no console
           }
         });
     </script>
