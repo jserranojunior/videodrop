@@ -61,50 +61,6 @@
       <div id="responseMessage" class="response-message"></div>
     </div>
 
-    <script>
-      document
-        .getElementById("downloadForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const video = document.getElementById("video").value;
-          const tipo = document.getElementById("tipo").value;
-          const formato = document.getElementById("formato").value;
-          const folder = document.getElementById("folder").value;
-
-          const responseMessage = document.getElementById("responseMessage");
-          responseMessage.textContent = "Processando...";
-          responseMessage.classList.remove("success", "error");
-
-          console.log("v1.1");
-
-          try {
-            const response = await fetch("http://localhost:3000/submit", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ video, tipo, formato, folder }),
-            });
-
-            if (!response.ok) {
-              // Se o servidor retornar um erro (não for 2xx)
-              throw new Error("Erro ao acessar o servidor.");
-            }
-
-            const data = await response.json();
-
-            if (data.success) {
-              responseMessage.textContent = "Download bem-sucedido!";
-              responseMessage.classList.add("success");
-            } else {
-              responseMessage.textContent = "Erro ao baixar o vídeo.";
-              responseMessage.classList.add("error");
-            }
-          } catch (error) {
-            responseMessage.textContent = "Erro ao conectar ao servidor.";
-            responseMessage.classList.add("error");
-            console.error("Erro ao fazer a requisição:", error); // Exibe o erro no console
-          }
-        });
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>

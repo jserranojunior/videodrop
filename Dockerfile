@@ -1,49 +1,43 @@
-# Estágio de construção
-FROM rust:latest AS builder
+# Usar a imagem Alpine como base
+FROM alpine:3.18
 
 # Define o diretório de trabalho
 WORKDIR /app
 
-# 1. Baixa e extrai a versão mais recente da branch master
-RUN wget https://github.com/jserranojunior/tubedrop/archive/refs/heads/master.tar.gz -O tubedrop.tar.gz && \
-    tar -xzf tubedrop.tar.gz --strip-components=1 && \
-    rm tubedrop.tar.gz
-
-# 2. Prepara e executa o build.sh com Cargo
-RUN chmod +x build.sh && \
-    ./build.sh || { echo "Falha no build.sh"; exit 1; }
-
-# Estágio final com imagem Ubuntu 22.04
-FROM ubuntu:22.04
-
-# Instalar dependências e atualizar glibc
-RUN apt-get update && \
-    apt-get install -y libgcc-s1 wget libc6-dev curl python3 python3-pip ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
+# Instalar dependências necessárias, incluindo ffmpeg e wget
+RUN apk update && \
+    apk add --no-cache \
+    libgcc \
+    libc6-compat \
+    curl \
+    python3 \
+    python3-dev \
+    ffmpeg \
+    bash \
+    build-base && \
+    rm -rf /var/cache/apk/*
 
 # Instalar o yt-dlp (baixando a versão mais recente diretamente do GitHub)
 RUN wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp && \
     chmod a+rx /usr/local/bin/yt-dlp
 
+# Copiar os arquivos do TubeDrop para dentro do container
+COPY target/x86_64-unknown-linux-musl/release/ /app
+
 # Criar um usuário não-root
-RUN useradd -m appuser
+RUN adduser -D appuser
 
-# Define o diretório de trabalho
-WORKDIR /app
-
-# Criar os diretórios necessários para o app e garantir permissões
-RUN mkdir -p /app/target /app/downloads && \
-    chown -R appuser:appuser /app
-
-# Copia os arquivos do estágio de construção para o diretório /app
-COPY --from=builder /app /app
+# Garantir permissões corretas para o diretório /app
+RUN chown -R appuser:appuser /app
 
 # Alternar para o usuário não-root
 USER appuser
 
-# Expõe a porta e define o volume
+# Expor a porta que o app irá rodar
 EXPOSE 3000
+
+# Definir o volume para os downloads
 VOLUME /app/downloads
 
-# 4. Executa o comando cargo run
-CMD ["target/release/tubedrop"]
+# Executar o aplicativo
+CMD ["/app/tubedrop"]
