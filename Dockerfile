@@ -18,37 +18,32 @@ FROM ubuntu:22.04
 
 # Instalar dependências e atualizar glibc
 RUN apt-get update && \
-    apt-get install -y libgcc-s1 wget libc6-dev curl python3 python3-pip && \
-    apt-get install -y libc6 && \
+    apt-get install -y libgcc-s1 wget libc6-dev curl python3 python3-pip ffmpeg && \
     rm -rf /var/lib/apt/lists/*
 
 # Instalar o yt-dlp (baixando a versão mais recente diretamente do GitHub)
 RUN wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp && \
     chmod a+rx /usr/local/bin/yt-dlp
 
-# Instalar ffmpeg
-RUN apt-get update && \
-    apt-get install -y ffmpeg
-
-# Instalar Rust diretamente no contêiner final
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-# Garantir que o Cargo esteja no PATH
-ENV PATH="/root/.cargo/bin:${PATH}"
+# Criar um usuário não-root
+RUN useradd -m appuser
 
 # Define o diretório de trabalho
 WORKDIR /app
 
-# Criar os diretórios necessários para o app e garantir as permissões
+# Criar os diretórios necessários para o app e garantir permissões
 RUN mkdir -p /app/target /app/downloads && \
-    chmod -R 777 /app /app/target /app/downloads
+    chown -R appuser:appuser /app
 
-# 3. Copia os arquivos do estágio de construção para o diretório /app
+# Copia os arquivos do estágio de construção para o diretório /app
 COPY --from=builder /app /app
+
+# Alternar para o usuário não-root
+USER appuser
 
 # Expõe a porta e define o volume
 EXPOSE 3000
-VOLUME /app/target/release/downloads
+VOLUME /app/downloads
 
 # 4. Executa o comando cargo run
-CMD ["cargo", "run"]
+CMD ["target/release/tubedrop"]
