@@ -1,52 +1,59 @@
 # Tubedrop
 
-Tubedrop é uma aplicação para baixar vídeos e músicas de diversas plataformas de streaming e compartilhamento de vídeos, oferecendo suporte para uma ampla gama de sites.
+Tubedrop é uma aplicação para baixar vídeos e músicas de diversas plataformas de streaming.
+
+![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 
 ## 🚀 Funcionalidades
 
-- Baixe vídeos e músicas diretamente de sites populares.
-- Suporte a múltiplos formatos de áudio e vídeo.
-- Interface simplificada para facilitar o uso.
-- Armazene seus downloads em um diretório especificado.
+- 📥 Download de vídeos e músicas
+- 🎧 Conversão para MP3/MP4
+- 🖥️ Interface web amigável
+- 📂 Armazenamento local
+- 🐳 Container Docker pronto
 
-## 🛠️ Como Executar com Docker
+## 🐳 Instalação via Docker Compose
 
-Para rodar o Tubedrop utilizando Docker, execute o seguinte comando:
+1. Crie `docker-compose.yml`:
 
-```sh
-sudo docker run -p 3000:3000 -v /home/jorge/Downloads/docker:/app/downloads tubedrop
+```yaml
+version: "3.8"
+
+services:
+  tubedrop:
+    image: jserranojunior/tubedrop
+    ports:
+      - "3050:3000"
+    volumes:
+      - ./downloads:/app/downloads
+    restart: unless-stopped
 ```
 
-### 📂 Explicação dos parâmetros:
+2. Execute o container:
 
-- `-p 3000:3000` → Mapeia a porta 3000 do contêiner para a porta 3000 do seu sistema.
-- `-v /home/jorge/Downloads/docker:/app/downloads` → Define a pasta onde os arquivos baixados serão armazenados.
-- `tubedrop` → Nome da imagem Docker do Tubedrop.
-
-## 📥 Sites Suportados
-
-O Tubedrop suporta download de vídeos e músicas de uma ampla variedade de sites, incluindo:
-
-- Plataformas de streaming de vídeo
-- Sites de compartilhamento de mídia
-- Redes sociais populares
-
-Para obter a lista completa de sites suportados, consulte a [documentação oficial](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
-
-## 📌 Requisitos
-
-Para executar o Tubedrop via Docker, certifique-se de ter instalado:
-
-- [Docker](https://docs.docker.com/get-docker/)
-
-## 🛠️ Construindo a Imagem Docker (Opcional)
-
-Caso queira construir a imagem manualmente, execute:
-
-```sh
-docker build -t tubedrop .
+```bash
+docker-compose up -d
 ```
+
+3. Acesse: http://localhost:3050
+
+## 💻 Comando Docker Direto
+
+```bash
+docker run -d \
+  -p 3000:3000 \
+  -v /caminho/absoluto/downloads:/app/downloads \
+  --name tubedrop \
+  jserranojunior/tubedrop
+```
+
+## 🌐 Sites Suportados
+
+- YouTube, Vimeo, SoundCloud
+- TikTok, Instagram, Twitter
+- +100 sites
 
 ## 📄 Licença
 
-Este projeto é distribuído sob a licença MIT.
+MIT License - [LICENSE](LICENSE)

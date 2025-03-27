@@ -4,8 +4,8 @@ FROM rust:latest AS builder
 # Define o diretório de trabalho
 WORKDIR /app
 
-# 1. Baixa e extrai o projeto
-RUN wget https://github.com/jserranojunior/tubedrop/archive/refs/tags/v1.0.0.tar.gz -O tubedrop.tar.gz && \
+# 1. Baixa e extrai a versão mais recente da branch master
+RUN wget https://github.com/jserranojunior/tubedrop/archive/refs/heads/master.tar.gz -O tubedrop.tar.gz && \
     tar -xzf tubedrop.tar.gz --strip-components=1 && \
     rm tubedrop.tar.gz
 
