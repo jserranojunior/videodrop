@@ -1,6 +1,6 @@
-# Tubedrop
+# VideoDrop
 
-Tubedrop é uma aplicação para baixar vídeos e músicas de diversas plataformas de streaming.
+VideoDrop é uma aplicação para baixar vídeos e músicas de diversas plataformas de streaming.
 
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
@@ -21,8 +21,8 @@ Tubedrop é uma aplicação para baixar vídeos e músicas de diversas plataform
 version: "3.8"
 
 services:
-  tubedrop:
-    image: jserranojunior/tubedrop
+  VideoDrop:
+    image: jserranojunior/VideoDrop
     ports:
       - "3050:3000"
     volumes:
@@ -44,14 +44,14 @@ docker-compose up -d
 docker run -d \
   -p 3000:3000 \
   -v /caminho/absoluto/downloads:/app/downloads \
-  --name tubedrop \
-  jserranojunior/tubedrop
+  --name VideoDrop \
+  jserranojunior/VideoDrop
 ```
 
 ## 🌐 Sites Suportados
 
-- YouTube, Vimeo, SoundCloud
-- TikTok, Instagram, Twitter
+- YouTube, Vimeo, SoundCloud, Twitter
+- TikTok, Instagram, Twitter, Pinterest
 - +100 sites
 
 ## 📄 Licença
