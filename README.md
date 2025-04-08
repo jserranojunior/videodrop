@@ -12,6 +12,7 @@ VideoDrop é uma aplicação para baixar vídeos e músicas de diversas platafor
 - 🖥️ Interface web amigável
 - 📂 Armazenamento local
 - 🐳 Container Docker pronto
+- 🦀 Feito com Rust e Yt-dlp
 
 ## 🐳 Instalação via Docker Compose
 
