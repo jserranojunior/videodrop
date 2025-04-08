@@ -1,86 +1,153 @@
-body {
-  font-family: "Arial", sans-serif;
-  background-color: #f4f4f9;
+/* Reset básico */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #333;
 }
 
-.container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 400px;
+/* Base */
+body {
+  background-color: #111827; /* bg-gray-900 */
+  color: #ffffff; /* text-white */
+  font-family: system-ui, sans-serif;
+}
+
+.text-center {
   text-align: center;
 }
 
-h1 {
-  color: #5c6bc0;
-  font-size: 1.8em;
-  margin-bottom: 20px;
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Layout */
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.w-1\/2 {
+  width: 50%;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.m-2 {
+  margin: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+/* Formulário */
+form {
+  max-width: 28rem; /* max-w-md */
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #1f2937; /* bg-gray-800 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  border-radius: 0.5rem;
+  color: #ffffff;
 }
 
 label {
   display: block;
-  text-align: left;
-  font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500;
+  color: #d1d5db; /* text-gray-300 */
+  margin-top: 1rem;
 }
 
 input,
 select {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 1em;
+  margin-top: 0.25rem; /* mt-1 */
+  padding: 0.5rem;
+  border: 1px solid #4b5563; /* border-gray-600 */
+  background-color: #374151; /* bg-gray-700 */
+  border-radius: 0.375rem;
+  color: #ffffff;
 }
 
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #3b82f6; /* focus:border-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* focus:ring-blue-500 */
+}
+
+/* Botão */
 button {
-  background-color: #5c6bc0;
-  color: white;
-  padding: 12px;
-  font-size: 1.1em;
-  border: none;
-  border-radius: 5px;
   width: 100%;
-  cursor: pointer;
+  margin-top: 1.5rem; /* mt-6 */
+  background-color: #2563eb; /* bg-blue-600 */
+  color: #ffffff; /* text-white */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+  border: none;
+  border-radius: 0.375rem; /* rounded-md */
+  cursor: pointer; /* cursor-pointer */
+  transition: background-color 0.2s ease-in-out; /* transition */
 }
 
 button:hover {
-  background-color: #3f51b5;
+  background-color: #3b82f6; /* hover:bg-blue-500 */
 }
-
 .response-message {
   margin-top: 20px;
   font-size: 1.2em;
 }
 
 .response-message.success {
-  color: green;
+  color: rgb(255, 255, 255);
 }
 
 .response-message.error {
-  color: red;
+  color: rgb(255, 255, 255);
 }
 
 .progress-container {
   margin-top: 20px;
   width: 100%;
-  background-color: #f3f3f3;
+  background-color: #00000042;
   border-radius: 5px;
 }
-
 .progress-bar {
   height: 20px;
-  background-color: #4caf50;
+  background-color: #4c5baf9d;
   border-radius: 5px;
   width: 0%;
   transition: width 0.3s;
@@ -93,34 +160,16 @@ button:hover {
 }
 
 .success {
-  background-color: #dff0d8;
-  color: #3c763d;
+  background-color: #003d0871;
+  color: #ffffff;
 }
 
 .error {
-  background-color: #f2dede;
-  color: #a94442;
+  background-color: #ff00003b;
+  color: #ffffff;
 }
 
 .info {
-  background-color: #d9edf7;
-  color: #31708f;
-}
-.site-logos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.site-logos img {
-  width: 50px; /* Ajuste conforme necessário */
-  height: 50px;
-  object-fit: contain;
-  border-radius: 10px;
-  background: #fff;
-  padding: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease-in-out;
+  background-color: #001aff2c;
+  color: #ffffff;
 }

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo docker build --no-cache -t jserranojunior/tubedrop:latest . && 
-sudo docker push jserranojunior/tubedrop:latest
+sudo docker build --no-cache -t jserranojunior/videodrop:latest . && 
+sudo docker push jserranojunior/videosdrop:latest

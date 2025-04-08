@@ -3,62 +3,85 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Baixar Vídeos</title>
+    <title>Video Drop - Baixar Vídeos</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
   </head>
-  <body>
-    <div class="container">
-      <div class="site-logos">
-        <img width="25px" src="logos/youtube.png" alt="YouTube" />
-        <img width="100px" src="logos/vimeo.png" alt="Vimeo" />
-        <img width="100px" src="logos/dailymotion.png" alt="Dailymotion" />
-        <img width="60px" src="logos/soundcloud.png" alt="SoundCloud" />
+  <body class="bg-gray-900 text-white">
+    <div class="flex flex-wrap justify-center">
+      <div class="w-1/2 mx-auto my-12 p-4 text-center rounded-lg">
+        <h1 class="m-2">Video Drop</h1>
+        <form
+          id="downloadForm"
+          class="max-w-md mx-auto p-6 bg-gray-800 shadow-md rounded-lg text-white"
+        >
+          <label for="video" class="block text-sm font-medium text-gray-300"
+            >URL do Vídeo/Música:</label
+          >
+          <input
+            type="text"
+            id="video"
+            name="video"
+            required
+            placeholder="Insira a URL"
+            class="w-full mt-1 p-2 border border-gray-600 bg-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+          />
 
-        <img width="25px" src="logos/twitter.png" alt="Twitter" />
+          <label for="tipo" class="block mt-4 text-sm font-medium text-gray-300"
+            >Tipo de Conteúdo:</label
+          >
+          <select
+            id="tipo"
+            name="tipo"
+            required
+            class="w-full mt-1 p-2 border border-gray-600 bg-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+          >
+            <option value="video">Vídeo</option>
+            <option value="playlist">Playlist</option>
+          </select>
 
-        <img width="25px" src="logos/facebook.png" alt="Facebook" />
-        <img width="25px" src="logos/tiktok.png" alt="TikTok" />
-        <img width="25px" src="logos/instagram.png" alt="Instagram" />
+          <label
+            for="formato"
+            class="block mt-4 text-sm font-medium text-gray-300"
+            >Formato:</label
+          >
+          <select
+            id="formato"
+            name="formato"
+            required
+            class="w-full mt-1 p-2 border border-gray-600 bg-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+          >
+            <option value="mp4">MP4</option>
+            <option value="mp3">MP3</option>
+          </select>
 
-        <img width="25px" src="logos/twitch.png" alt="Twitch" />
+          <label
+            for="folder"
+            class="block mt-4 text-sm font-medium text-gray-300"
+            >Pasta a ser colocada o vídeo:</label
+          >
+          <input
+            type="text"
+            id="folder"
+            name="folder"
+            placeholder="Nome da pasta"
+            class="w-full mt-1 p-2 border border-gray-600 bg-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+          />
+
+          <button
+            type="submit"
+            class="w-full mt-6 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-500 transition cursor-pointer"
+          >
+            Download
+          </button>
+        </form>
+
+        <div
+          class="w-1/2 p-4 max-w-md mx-auto p-6 rounded-lg mt-2"
+          id="responseMessage"
+          class="response-message"
+        ></div>
       </div>
-      <h1>Baixar Vídeos e Músicas</h1>
-
-      <form id="downloadForm">
-        <label for="video">URL do Vídeo/Música:</label>
-        <input
-          type="text"
-          id="video"
-          name="video"
-          required
-          placeholder="Insira a URL"
-        />
-
-        <label for="tipo">Tipo de Conteúdo:</label>
-        <select id="tipo" name="tipo" required>
-          <option value="video">Vídeo</option>
-          <option value="playlist">Playlist</option>
-        </select>
-
-        <label for="formato">Formato:</label>
-        <select id="formato" name="formato" required>
-          <option value="mp4">MP4</option>
-          <option value="mp3">MP3</option>
-        </select>
-
-        <label for="folder">Pasta a ser colocado o vídeo:</label>
-        <input
-          type="text"
-          id="folder"
-          name="folder"
-          required
-          placeholder="Nome da pasta"
-        />
-
-        <button type="submit">Baixar</button>
-      </form>
-
-      <div id="responseMessage" class="response-message"></div>
     </div>
 
     <script src="script.js"></script>

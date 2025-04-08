@@ -40,4 +40,4 @@ EXPOSE 3000
 VOLUME /app/downloads
 
 # Executar o aplicativo
-CMD ["/app/tubedrop"]
+CMD ["/app/videodrop"]
