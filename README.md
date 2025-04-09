@@ -23,7 +23,7 @@ version: "3.8"
 
 services:
   VideoDrop:
-    image: jserranojunior/VideoDrop
+    image: jserranojunior/videodrop
     ports:
       - "3050:3000"
     volumes:
@@ -37,7 +37,7 @@ services:
 docker-compose up -d
 ```
 
-3. Acesse: http://localhost:3050
+3. Acesse: http://localhost:3000
 
 ## 💻 Comando Docker Direto
 
