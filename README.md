@@ -2,6 +2,8 @@
 
 VideoDrop é uma aplicação para baixar vídeos e músicas de diversas plataformas de streaming.
 
+![Screenshot da aplicação](screenshot.png)
+
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 
